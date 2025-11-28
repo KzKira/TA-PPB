@@ -2249,83 +2249,12 @@ img {
   }
 }
 
-/* Mobile debug button styling (next to logo) */
+/* Mobile header layout tweaks */
 @media (max-width: 991px) {
-  .wpo-site-header .navbar-header {
-    position: relative;
-  }
-
-  /* Layout: place logo left and sign-in area right on mobile */
-  .navbar-header {
-    width: 100%;
-  }
-
-  @media (max-width: 991px) {
-    .navbar-header {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: flex-start !important;
-      gap: 12px;
-    }
-
-    /* Push the mobile header-right to the far right of the navbar-header row */
-    .mobile-header-right {
-      margin-left: auto;
-      position: relative !important;
-      right: auto !important;
-      top: auto !important;
-      z-index: 10011;
-      align-items: center;
-      display: flex !important;
-      gap: 8px;
-    }
-  }
-
-  /* when debug class present, ensure header-right is visible */
-  body.debug-show-header-right .wpo-site-header .header-right {
-    display: -webkit-box !important;
-    display: -ms-flexbox !important;
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-}
-
-/* Mobile-only header sign-in area (mirrors desktop) */
-@media (max-width: 991px) {
-  .mobile-header-right .text {
-    display: inline !important;
-  }
-
-  .mobile-header-right .theme-btn,
-  .mobile-header-right .login {
-    height: 40px;
-    padding: 0 10px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* hide the desktop header-right on mobile to avoid duplicates */
-  .wpo-site-header .header-right { display: none !important; }
-}
-
-/* Additional safety overrides: ensure header isn't clipped and buttons are clickable */
-@media (max-width: 991px) {
-  .wpo-site-header {
-    position: relative !important;
-    overflow: visible !important;
-    z-index: 10009 !important;
-  }
-
-}
-
-/* Hide mobile-header-right on desktop to avoid duplicate sign-in buttons */
-@media (min-width: 992px) {
-  .mobile-header-right {
-    display: none !important;
-  }
+  .wpo-site-header .navbar-header { position: relative; }
+  .navbar-header { width: 100%; display: flex !important; align-items: center !important; justify-content: flex-start !important; gap: 12px; }
+  .wpo-site-header { position: relative !important; overflow: visible !important; z-index: 10009 !important; }
+  /* On mobile we will use the bottom nav for profile actions; desktop header-right remains the canonical location for Sign In/Profile */
 }
 
   .wpo-site-header .header-right a,

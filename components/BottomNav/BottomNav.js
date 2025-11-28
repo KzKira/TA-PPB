@@ -13,6 +13,8 @@ const BottomNav = () => {
     { href: '/about', label: 'About', icon: 'ti-info' },
     { href: '/course', label: 'Courses', icon: 'ti-book' },
     { href: '/student/courses', label: 'My Course', icon: 'ti-agenda' },
+    // Profile: if user logged in go to /profile else go to /login
+    { href: user ? '/profile' : '/login', label: 'Profile', icon: 'ti-user' },
     { href: '/cart', label: 'Cart', icon: 'ti-shopping-cart' },
     { href: '/gallery', label: 'Gallery', icon: 'ti-image' }
   ]

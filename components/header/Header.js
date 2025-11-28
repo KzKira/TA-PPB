@@ -74,30 +74,7 @@ const Header = (props) => {
                                 <div className="navbar-header">
                                     <Link onClick={ClickHandler} className="navbar-brand" href="/home"><Image src={Logo}
                                         alt="logo" /></Link>
-                                    {/* Mobile-only sign in / profile (mirrors desktop header-right) */}
-                                    {isClient && isMobileView && (
-                                        <div className="mobile-header-right" aria-hidden={false}>
-                                            <div className="close-form">
-                                                {user ? (
-                                                    <Link onClick={ClickHandler} className="theme-btn" href="/profile"><span className="text">Profile</span>
-                                                        <span className="mobile">
-                                                            <i className="fi flaticon-charity"></i>
-                                                        </span></Link>
-                                                ) : (
-                                                    <>
-                                                        <Link onClick={ClickHandler} className="login" href="/login"><span className="text">Sign In</span>
-                                                            <span className="mobile">
-                                                                <i className="fi flaticon-charity"></i>
-                                                            </span></Link>
-                                                        <Link onClick={ClickHandler} className="theme-btn" href="/register"><span className="text">Sign Up</span>
-                                                            <span className="mobile">
-                                                                <i className="fi flaticon-charity"></i>
-                                                            </span></Link>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </div>
-                                    )}
+                                    {/* mobile sign-in removed per request; desktop header-right remains */}
                                 </div>
                             </div>
                             <div className="col-lg-6 col-md-1 col-1">
