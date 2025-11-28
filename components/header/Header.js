@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Link from 'next/link'
 import { AuthContext } from '../../context/AuthContext'
 import Logo from '/public/images/logo.svg'
@@ -12,6 +12,18 @@ const Header = (props) => {
     const [menuActive, setMenuState] = useState(false);
     const { user } = useContext(AuthContext)
     const router = useRouter()
+
+    // Client-side flags to avoid rendering mobile block during SSR
+    const [isClient, setIsClient] = useState(false)
+    const [isMobileView, setIsMobileView] = useState(false)
+
+    useEffect(() => {
+        setIsClient(true)
+        const check = () => setIsMobileView(window.innerWidth <= 991)
+        check()
+        window.addEventListener('resize', check)
+        return () => window.removeEventListener('resize', check)
+    }, [])
 
     const isActive = (path) => router && router.pathname === path
     const pagesPaths = ['/lesson','/student/courses','/gallery','/testimonial','/teacher','/become-teacher','/faq']
@@ -63,27 +75,29 @@ const Header = (props) => {
                                     <Link onClick={ClickHandler} className="navbar-brand" href="/home"><Image src={Logo}
                                         alt="logo" /></Link>
                                     {/* Mobile-only sign in / profile (mirrors desktop header-right) */}
-                                    <div className="mobile-header-right" aria-hidden={false}>
-                                        <div className="close-form">
-                                            {user ? (
-                                                <Link onClick={ClickHandler} className="theme-btn" href="/profile"><span className="text">Profile</span>
-                                                    <span className="mobile">
-                                                        <i className="fi flaticon-charity"></i>
-                                                    </span></Link>
-                                            ) : (
-                                                <>
-                                                    <Link onClick={ClickHandler} className="login" href="/login"><span className="text">Sign In</span>
+                                    {isClient && isMobileView && (
+                                        <div className="mobile-header-right" aria-hidden={false}>
+                                            <div className="close-form">
+                                                {user ? (
+                                                    <Link onClick={ClickHandler} className="theme-btn" href="/profile"><span className="text">Profile</span>
                                                         <span className="mobile">
                                                             <i className="fi flaticon-charity"></i>
                                                         </span></Link>
-                                                    <Link onClick={ClickHandler} className="theme-btn" href="/register"><span className="text">Sign Up</span>
-                                                        <span className="mobile">
-                                                            <i className="fi flaticon-charity"></i>
-                                                        </span></Link>
-                                                </>
-                                            )}
+                                                ) : (
+                                                    <>
+                                                        <Link onClick={ClickHandler} className="login" href="/login"><span className="text">Sign In</span>
+                                                            <span className="mobile">
+                                                                <i className="fi flaticon-charity"></i>
+                                                            </span></Link>
+                                                        <Link onClick={ClickHandler} className="theme-btn" href="/register"><span className="text">Sign Up</span>
+                                                            <span className="mobile">
+                                                                <i className="fi flaticon-charity"></i>
+                                                            </span></Link>
+                                                    </>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
                                 </div>
                             </div>
                             <div className="col-lg-6 col-md-1 col-1">

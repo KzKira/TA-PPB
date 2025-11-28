@@ -2319,6 +2319,15 @@ img {
     z-index: 10009 !important;
   }
 
+}
+
+/* Hide mobile-header-right on desktop to avoid duplicate sign-in buttons */
+@media (min-width: 992px) {
+  .mobile-header-right {
+    display: none !important;
+  }
+}
+
   .wpo-site-header .header-right a,
   .wpo-site-header .header-right .login,
   .wpo-site-header .header-right .theme-btn {
