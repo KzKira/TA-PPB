@@ -2139,7 +2139,12 @@ img {
 
 @media (max-width: 991px) {
   .wpo-site-header .header-right .close-form {
-    display: none;
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
   }
 }
 
@@ -2205,6 +2210,71 @@ img {
   }
   .header-right {
     right: -10px;
+  }
+}
+
+/* Ensure header right (Sign In / Profile) is pinned top-right on mobile */
+@media (max-width: 991px) {
+  .wpo-site-header .header-right {
+    position: absolute !important;
+    right: 10px !important;
+    top: 8px !important;
+    z-index: 10010 !important;
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
+  }
+
+  /* Make sure buttons inside header-right show properly */
+  .wpo-site-header .header-right .close-form {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
+  }
+
+  .wpo-site-header .header-right .close-form .theme-btn,
+  .wpo-site-header .header-right .close-form .login {
+    width: auto !important;
+    height: 40px !important;
+    padding: 0 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
+/* Additional safety overrides: ensure header isn't clipped and buttons are clickable */
+@media (max-width: 991px) {
+  .wpo-site-header {
+    position: relative !important;
+    overflow: visible !important;
+    z-index: 10009 !important;
+  }
+
+  .wpo-site-header .header-right a,
+  .wpo-site-header .header-right .login,
+  .wpo-site-header .header-right .theme-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: inherit !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  /* make sure icon-only mobile span is visible */
+  .wpo-site-header .header-right .close-form .theme-btn .mobile,
+  .wpo-site-header .header-right .close-form .login .mobile {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 }
 
