@@ -15,6 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Head from 'next/head'
+import BottomNav from '../components/BottomNav/BottomNav'
 
 function MyApp({ Component, pageProps }) {
   const [isClient, setIsClient] = React.useState(false);
@@ -36,6 +37,8 @@ function MyApp({ Component, pageProps }) {
           ) : (
             <Component {...pageProps} />
           )}
+          {/* Bottom navigation rendered only on client to avoid SSR mismatch */}
+          {isClient && <BottomNav />}
         </Provider>
       </AuthProvider>
       <ToastContainer />

@@ -106,7 +106,7 @@ const About = (props) => {
                                         </div>
                                     </div>
                                 </div>
-                                <Link onClick={ClickHandler} href={'/about'} className="theme-btn-s2">Learn More About Us</Link>
+                                <Link onClick={ClickHandler} href={'/faq'} className="theme-btn-s2">FAQ</Link>
                             </div>
                         </div>
                     </div>

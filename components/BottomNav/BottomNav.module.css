@@ -1,0 +1,44 @@
+.bottomNav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: #ffffff;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  z-index: 9999;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.06);
+}
+
+.item {
+  flex: 1 1 0;
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  text-decoration: none;
+  padding: 6px 0;
+}
+
+.icon {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.active {
+  color: var(--primary-color, #ff5a5f);
+}
+
+/* hide on large screens */
+@media (min-width: 992px) {
+  .bottomNav { display: none; }
+}
+
+/* small screens tweak */
+@media (max-width: 480px) {
+  .bottomNav { height: 64px; font-size: 11px; }
+  .icon { font-size: 20px; }
+}

@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react'
 import Link from 'next/link'
 import { AuthContext } from '../../context/AuthContext'
-import MobileMenu from '../MobileMenu/MobileMenu'
 import Logo from '/public/images/logo.svg'
 import HeaderTopbar from '../HeaderTopbar/HeaderTopbar'
 import Image from 'next/image'
@@ -25,6 +24,18 @@ const Header = (props) => {
         window.scrollTo(10, 0);
     }
 
+    const toggleMenu = () => {
+        setMenuState(!menuActive);
+        const nav = document.getElementById('navbar');
+        if (nav) {
+            if (!menuActive) {
+                nav.classList.add('show');
+            } else {
+                nav.classList.remove('show');
+            }
+        }
+    }
+
     return (
         <header id="header">
             <HeaderTopbar topbarClass={props.topbarClass}/>
@@ -32,11 +43,7 @@ const Header = (props) => {
                 <nav className="navigation navbar navbar-expand-lg navbar-light">
                     <div className="container-fluid">
                         <div className="row align-items-center">
-                            <div className="col-lg-3 col-md-4 col-3 d-lg-none dl-block">
-                                <div className="mobail-menu">
-                                    <MobileMenu />
-                                </div>
-                            </div>
+                            {/* mobile hamburger removed - logo moved to left for mobile */}
                             <div className="col-lg-3 col-md-4 col-6">
                                 <div className="navbar-header">
                                     <Link onClick={ClickHandler} className="navbar-brand" href="/home"><Image src={Logo}
@@ -56,24 +63,14 @@ const Header = (props) => {
                                         <li>
                                             <Link onClick={ClickHandler} href="/course" className={isActive('/course') ? 'active' : ''}>Courses</Link>
                                         </li>
-                                        <li className={`menu-item-has-children ${isPagesActive ? 'active' : ''}`}>
-                                            <a href="#" onClick={(e) => { e.preventDefault(); }} className={isPagesActive ? 'active' : ''}>Pages</a>
-                                            <ul className="sub-menu">
-                                                <li><Link onClick={ClickHandler} href="/student/courses" className={isActive('/student/courses') ? 'active' : ''}>My Courses</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/gallery" className={isActive('/gallery') ? 'active' : ''}>Gallery</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/testimonial" className={isActive('/testimonial') ? 'active' : ''}>Testimonial</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/teacher" className={isActive('/teacher') ? 'active' : ''}>Teachers</Link></li>
-                                                
-                                                <li><Link onClick={ClickHandler} href="/become-teacher" className={isActive('/become-teacher') ? 'active' : ''}>Become Teacher</Link></li>
-                                                <li><Link onClick={ClickHandler} href="/faq" className={isActive('/faq') ? 'active' : ''}>FAQ</Link></li>
-                                                
-                                            </ul>
+                                        <li>
+                                            <Link onClick={ClickHandler} href="/student/courses" className={isActive('/student/courses') ? 'active' : ''}>My Course</Link>
                                         </li>
                                         {/* Blog link removed as requested */}
                                         <li>
                                             <Link onClick={ClickHandler} href="/cart" className={isActive('/cart') ? 'active' : ''}>Cart</Link>
                                         </li>
-                                        <li><Link onClick={ClickHandler} href="/contact" className={isActive('/contact') ? 'active' : ''}>Contact</Link></li>
+                                        <li><Link onClick={ClickHandler} href="/gallery" className={isActive('/gallery') ? 'active' : ''}>Gallery</Link></li>
                                     </ul>
                                 </div>
                             </div>
