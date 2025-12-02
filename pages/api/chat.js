@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 // Kita import data kursus agar AI tahu apa yang kita jual
-import coursesData from '../../api/data.json'; 
+import coursesData from '../../api/data.json';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -15,8 +15,8 @@ export default async function handler(req, res) {
     try {
         // 1. Konfigurasi Model
         // Gunakan 'gemini-1.5-flash' agar respon cepat dan hemat biaya
-        const model = genAI.getModel({ 
-            model: "gemini-1.5-flash",
+        const model = genAI.getGenerativeModel({
+            model: "gemini-2.5-pro",
             // 2. System Instruction (Otak/Konteks AI)
             // Di sini kita masukkan "Kepribadian" dan "Data" ke dalam otak AI
             systemInstruction: `
@@ -45,6 +45,12 @@ export default async function handler(req, res) {
             role: msg.role === 'user' ? 'user' : 'model',
             parts: [{ text: msg.content }]
         }));
+
+        // --- TAMBAHAN PENGAMANAN (SAFETY) ---
+        // Jika history tidak kosong DAN elemen pertama adalah 'model', hapus elemen itu.
+        if (chatHistory.length > 0 && chatHistory[0].role === 'model') {
+            chatHistory.shift(); // Buang pesan pertama
+        }
 
         const chat = model.startChat({
             history: chatHistory,
