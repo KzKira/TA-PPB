@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-// Kita import data kursus agar AI tahu apa yang kita jual
-import coursesData from '../../api/data.json';
+// Import supabase client
+import { supabase } from '../../lib/supabaseClient';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -13,12 +13,25 @@ export default async function handler(req, res) {
     const { message, history } = req.body;
 
     try {
-        // 1. Konfigurasi Model
-        // Gunakan 'gemini-1.5-flash' agar respon cepat dan hemat biaya
+        // --- PERUBAHAN DI SINI ---
+        // Mengambil data dari tabel 'courses' di Supabase
+        const { data: coursesData, error } = await supabase
+            .from('courses') // Mengakses tabel 'courses'
+            .select('*');
+
+        if (error) {
+            console.error("Error fetching Supabase:", error);
+            throw new Error("Gagal mengambil data kursus dari database");
+        }
+
+        // Cek jika data kosong
+        if (!coursesData || coursesData.length === 0) {
+            console.warn("Data tabel 'courses' kosong atau tidak terbaca.");
+        }
+
+        // Konfigurasi Model Gemini
         const model = genAI.getGenerativeModel({
-            model: "gemini-2.5-pro",
-            // 2. System Instruction (Otak/Konteks AI)
-            // Di sini kita masukkan "Kepribadian" dan "Data" ke dalam otak AI
+            model: "gemini-2.5-pro", 
             systemInstruction: `
                 Kamu adalah "EduBot", asisten virtual profesional untuk website kursus online "Eduko".
                 
@@ -28,35 +41,33 @@ export default async function handler(req, res) {
                 - Menjawab dengan ramah, singkat, dan menggunakan Emoji sesekali.
                 - Menggunakan Bahasa Indonesia yang baik sesuai PUEBI.
 
-                DATA KURSUS YANG KAMI MILIKI:
+                DATA KURSUS (Live dari Database):
                 ${JSON.stringify(coursesData)}
 
                 ATURAN PENTING:
                 - Jika user bertanya harga, jawab sesuai data di atas.
                 - Jika user bertanya tentang kursus yang TIDAK ada di data, katakan mohon maaf kursus belum tersedia.
-                - Jangan mengarang harga atau fitur yang tidak ada.
+                - Jangan mengarang harga atau fitur yang tidak ada di data.
                 - Jika ada masalah teknis, arahkan user email ke support@eduko.com.
             `
         });
 
-        // 3. Memulai Chat dengan History (Agar AI ingat pembicaraan sebelumnya)
-        // Kita perlu memformat history dari frontend ke format Gemini
+        // Format history chat agar sesuai format Gemini
         const chatHistory = history.map(msg => ({
             role: msg.role === 'user' ? 'user' : 'model',
             parts: [{ text: msg.content }]
         }));
 
-        // --- TAMBAHAN PENGAMANAN (SAFETY) ---
-        // Jika history tidak kosong DAN elemen pertama adalah 'model', hapus elemen itu.
+        // Hapus pesan pertama jika role-nya 'model' (untuk menghindari error API)
         if (chatHistory.length > 0 && chatHistory[0].role === 'model') {
-            chatHistory.shift(); // Buang pesan pertama
+            chatHistory.shift(); 
         }
 
         const chat = model.startChat({
             history: chatHistory,
         });
 
-        // 4. Kirim Pesan
+        // Kirim pesan ke Gemini
         const result = await chat.sendMessage(message);
         const response = await result.response;
         const text = response.text();
@@ -64,7 +75,7 @@ export default async function handler(req, res) {
         res.status(200).json({ reply: text });
 
     } catch (error) {
-        console.error("Error Gemini:", error);
-        res.status(500).json({ message: 'Maaf, server sedang sibuk.' });
+        console.error("Error Gemini/Server:", error);
+        res.status(500).json({ message: 'Maaf, ada gangguan pada server chatbot.' });
     }
 }
