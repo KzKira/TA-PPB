@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
         // Konfigurasi Model Gemini
         const model = genAI.getGenerativeModel({
-            model: "gemini-2.5-pro", 
+            model: "gemini-2.5-flash", 
             systemInstruction: `
                 Kamu adalah "EduBot", asisten virtual profesional untuk website kursus online "Eduko".
                 

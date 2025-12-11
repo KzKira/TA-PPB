@@ -1,0 +1,39 @@
+/* Minimal dark mode overrides used when `body.dark-mode` is set */
+body.dark-mode {
+  background-color: #121212 !important;
+  color: #e6e6e6 !important;
+}
+
+/* Ensure common wrappers and forms inherit dark background/text */
+body.dark-mode .loginWrapper,
+body.dark-mode .loginForm {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+/* Buttons: slightly lighter background in dark mode */
+body.dark-mode .cBtnTheme,
+body.dark-mode .btn {
+  background-color: rgba(255,255,255,0.08) !important;
+  color: #e6e6e6 !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+}
+
+/* Links and headings */
+body.dark-mode a,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode p {
+  color: #e6e6e6 !important;
+}
+
+/* Logout button styling (applies in both light and dark modes) */
+.logoutBtn {
+  background-color: #f31010 !important; /* yellow */
+  color: #000 !important;
+  border-color: rgba(0,0,0,0.08) !important;
+}
+.logoutBtn:hover {
+  background-color: #FFCA28 !important;
+}

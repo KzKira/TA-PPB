@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import Navbar from '../../components/Navbar/Navbar'
 import { useRouter } from 'next/router'
@@ -25,6 +25,28 @@ const ProfilePage = () => {
     router.push('/')
   }
 
+  // Dark mode state: sync with localStorage and toggle a class on <body>
+  const [darkMode, setDarkMode] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const stored = localStorage.getItem('darkMode') === 'true'
+    setDarkMode(stored)
+    if (stored) document.body.classList.add('dark-mode')
+  }, [])
+
+  const handleToggleDark = () => {
+    const next = !darkMode
+    setDarkMode(next)
+    if (next) document.body.classList.add('dark-mode')
+    else document.body.classList.remove('dark-mode')
+    try {
+      localStorage.setItem('darkMode', String(next))
+    } catch (e) {
+      // ignore
+    }
+  }
+
   return (
     <>
       <Navbar hclass={'wpo-header-style-4'} />
@@ -40,7 +62,12 @@ const ProfilePage = () => {
             <strong>Email:</strong>
             <div>{email}</div>
           </div>
-          <Button className="cBtnTheme" onClick={handleLogout}>Logout</Button>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <Button className="cBtnTheme" onClick={handleToggleDark}>
+              {darkMode ? 'Switch to Light' : 'Switch to Dark'}
+            </Button>
+            <Button className="cBtnTheme logoutBtn" onClick={handleLogout}>Logout</Button>
+          </div>
         </Grid>
       </Grid>
     </>
